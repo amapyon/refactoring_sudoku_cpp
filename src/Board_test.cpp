@@ -27,7 +27,7 @@ TEST(BoardTest, testCreate) {
 
 TEST(BoardTest, testCanPut) {
 	Board board;
-	ASSERT_TRUE(board.canPut(1, 1, 1));
+	ASSERT_TRUE(board.canPut(1, 1, 1)) << "初期状態ならばどこにでも置ける";
 }
 
 TEST(BoardTest, testCanPutX) {
@@ -132,14 +132,17 @@ TEST(BoardTest, testCanPutBlock) {
     ASSERT_TRUE(board.canPut(7, 9, 2)) << "違うブロックには同じ数は置ける";
 }
 
-TEST(BoardTest, testCheckPosition) {
+TEST(BoardTest, testExceptionPositionCanPut) {
     Board board;
     ASSERT_NO_THROW(board.canPut(1, 1, 1));
     ASSERT_THROW(board.canPut(0, 1, 1), OutOfBoard);
     ASSERT_THROW(board.canPut(1, 0, 1), OutOfBoard);
     ASSERT_THROW(board.canPut(10, 1, 1), OutOfBoard);
     ASSERT_THROW(board.canPut(1, 10, 1), OutOfBoard);
+}
 
+TEST(BoardTest, testExceptionPositionCan) {
+    Board board;
     ASSERT_NO_THROW(board.put(1, 1, 1));
     ASSERT_THROW(board.put(0, 1, 1), OutOfBoard);
     ASSERT_THROW(board.put(1, 0, 1), OutOfBoard);
@@ -147,12 +150,25 @@ TEST(BoardTest, testCheckPosition) {
     ASSERT_THROW(board.put(1, 10, 1), OutOfBoard);
 }
 
-TEST(BoardTest, testCheckNumber) {
+TEST(BoardTest, testExceptionPositionClear) {
+    Board board;
+    ASSERT_NO_THROW(board.clear(1, 1));
+    ASSERT_THROW(board.clear(0, 1), OutOfBoard);
+	ASSERT_THROW(board.clear(1, 0), OutOfBoard);
+	ASSERT_THROW(board.clear(10, 1), OutOfBoard);
+	ASSERT_THROW(board.clear(1, 10), OutOfBoard);
+
+}
+
+TEST(BoardTest, testExceptionNumberCanPut) {
     Board board;
     ASSERT_NO_THROW(board.canPut(9, 9, 9));
     ASSERT_THROW(board.canPut(9, 9, 0), IllegalNumber);
     ASSERT_THROW(board.canPut(9, 9, 10), IllegalNumber);
+}
 
+TEST(BoardTest, testExceptionNumberPut) {
+    Board board;
     ASSERT_NO_THROW(board.put(9, 9, 9));
     ASSERT_THROW(board.put(9, 9, 0), IllegalNumber);
     ASSERT_THROW(board.put(9, 9, 10), IllegalNumber);
